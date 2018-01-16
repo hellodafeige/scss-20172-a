@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/jquery-ui.css"/>
+    <link rel="stylesheet" href="css/easyui.css"/>
+    <link rel="stylesheet" href="css/color.css"/>
+    <link rel="stylesheet" href="css/icon.css"/>
+</head>
+<body>
+
+<div class="container">
+    <!--<form id="search-form" action="/course/export" method="POST">-->
+        <span>名称</span>
+        <input id="name" name="name" style="line-height:20px;border:1px solid #ccc">
+        <span>状态</span>
+        <select id="status" name="status">
+            <option value="">请选择</option>
+            <option value="AC">待选</option>
+            <option value="PS">备选</option>
+            <option value="CM">结束</option>
+        </select>
+        <span>开始</span>
+        <input id="begin" name="begin" type="date" style="line-height:20px;border:1px solid #ccc">
+        <span>结束</span>
+        <input id="end" name="begin" type="date" style="line-height:20px;border:1px solid #ccc">
+        <a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">查询</a>
+    <!--</form>-->
+    <progress id="progressBar" value="0" max="100" ></progress><span id="target"></span>
+</div>
+<table id="course-list"></table>
+
+
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.easyui.min.js"></script>
+<script src="js/easyui-lang-zh_CN.js"></script>
+
+<script>
+    $('#course-list').datagrid({
+        title: "课程列表",
+        url: '/course/query',
+        method: "POST",
+        pagination: true,
+        pageList: [3, 5, 10],
+        toolbar: "#tool-bar",
+        columns: [[
+            {field: 'idStr', title: 'ID', checkbox: true, resizable: true},
+            {field: 'name', title: '名称', width: 100, resizable: true},
+            {field: 'teacher', title: '讲师', width: 50, resizable: true},
+            {field: 'serviceTeacher', title: '班主任', width: 50, resizable: true},
+            {field: 'serviceTeacherTel', title: '班主任电话', width: 100, resizable: true},
+            {field: 'classroom', title: '教室', width: 50, resizable: true},
+            {field: 'beginTeachTime', title: '开始上课时间', width: 150, resizable: true},
+            {field: 'endTeachTime', title: '结束上课时间', width: 150, resizable: true},
+            {field: 'beginSelectTime', title: '开始选课时间', width: 150, resizable: true},
+            {field: 'endSelectTime', title: '结束选课时间', width: 150, resizable: true},
+            {field: 'credit', title: '学分', width: 40, resizable: true},
+            {field: 'maxAmount', title: '课容量', width: 40, resizable: true},
+            {field: 'currentAmount', title: '已选人数', width: 40, resizable: true},
+            {field: 'status', title: '状态', width: 40, resizable: true}
+        ]]
+    });
+
+    function doSearch() {
+        $('#course-list').datagrid('load', {
+            "name": $("#name").val(),
+            "status": $("#status").val(),
+            "begin": $("#begin").val(),
+            "end": $("#end").val()
+        });
+    }
+
+</script>
+
+</body>
+</html>
